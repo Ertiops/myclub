@@ -1,0 +1,202 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"Package Control: Install Package"
+			],
+			[
+				"a",
+				"Package Control: Advanced Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/myclub/myclub_website/events/views.py",
+		"/C/Users/Илья/Desktop/FlaskFriday/hello.py",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/templates/TE_task_editor.html",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/templates/TE_variant.html",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/templates/TE_addSpeakingReading.html",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/hello.py",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/templates/TE_speaking.html",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/FDataBase.py",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/templates/TE_materials.html",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/templates/TE_variants.html",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/templates/TE_editText.html",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/webforms.py",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/templates/TE_addTask.html",
+		"/C/bionalizer/listening.json",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/templates/TE_experiments.html",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/templates/TE_listening.html",
+		"/C/Users/Илья/flask_bioterms/venv/Lib/site-packages/charset_normalizer/cd.py",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/templates/TE_blocks.html",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/templates/TE_blocks_tasktype.html",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/templates/TE_writing.html",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/templates/speaking.html",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/templates/TE_lex_grammar.html",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/templates/TE_reading.html",
+		"/C/Users/Илья/Desktop/GitHub/FlaskQuiz/templates/test_lex_grammar.html",
+		"/C/myclub/myclub_website/events/templates/home.html",
+		"/C/myclub/myclub_website/events/urls.py",
+		"/C/myclub/myclub_website/myclub_website/urls.py",
+		"/C/myclub/myclub_website/myclub_website/settings.py"
+	],
+	"find":
+	{
+		"height": 32.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 32.0
+	},
+	"input":
+	{
+		"height": 49.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "views.sublime-project",
+	"replace":
+	{
+		"height": 60.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 249.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
