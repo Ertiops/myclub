@@ -4,10 +4,56 @@ from calendar import HTMLCalendar
 from datetime import datetime
 from django.http import HttpResponseRedirect
 from .models import Event, Venue
-from .forms import VenueForm
-from .forms import EventForm
+from .forms import VenueForm, EventForm, EventFormAdmin
 from django.http import HttpResponse
 import csv
+
+from django.http import FileResponse
+import io
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+from reportlab.lib.pagesizes import letter
+
+# Import Pagination Stuff
+from django.core.paginator import Paginator
+
+
+# Generate a PDF File Venue List
+def venue_pdf(request):
+	# Create Bytestream buffer
+	buf = io.BytesIO()
+	# Create a canvas
+	c = canvas.Canvas(buf, pagesize=letter, bottomup = 0)
+	# Create a text object
+	textob = c.beginText()
+	textob.setTextOrigin(inch, inch)
+	textob.setFont("Helvetica", 14)
+
+	# Designate The Model
+
+	venues = Venue.objects.all()
+
+	lines = []
+
+	for venue in venues:
+		lines.append(venue.name)
+		lines.append(venue.address)
+		lines.append(venue.zip_code)
+		lines.append(venue.phone)
+		lines.append(venue.web)
+		lines.append(venue.email_address)
+		lines.append(" ")												
+
+	for line in lines:
+		textob.textLine(line)
+
+	c.drawText(textob)
+	c.showPage()
+	c.save()
+	buf.seek(0)
+
+	# Return something
+	return FileResponse(buf, as_attachment=True, filename='venue.pdf')
 
 
 # Generate Text File Venue List
@@ -69,22 +115,41 @@ def delete_event(request, event_id):
 
 def update_event(request, event_id):
 	event = Event.objects.get(pk=event_id)
-	form = EventForm(request.POST or None, instance=event)
+	if request.user.is_superuser:
+		form = EventFormAdmin(request.POST or None, instance=event)
+	else:
+		form = EventForm(request.POST or None, instance=event)
+		
 	if form.is_valid():
 		form.save()
 		return redirect('list-events')
-	return render(request, 'events/update_venue.html',
+	return render(request, 'events/update_event.html',
 		{'event': event, 'form':form})	
 
 def add_event(request):
 	submitted = False
 	if request.method == "POST":
-		form = EventForm(request.POST)
-		if form.is_valid():
-			form.save()
-			return HttpResponseRedirect('/add_event?submitted=True')
+		if request.user.is_superuser:
+			form = EventFormAdmin(request.POST)
+			if form.is_valid():
+				form.save()
+				return HttpResponseRedirect('/add_event?submitted=True')
+		else:
+			form = EventForm(request.POST)
+			event = form.save(commit=False)
+			event.manager = request.user # logged in user
+			event.save()
+
+
+			if form.is_valid():
+				form.save()
+				return HttpResponseRedirect('/add_event?submitted=True')
 	else:
-		form = EventForm
+		# Just Going To The Page, Not Submitting
+		if request.user.is_superuser:
+			form = EventFormAdmin
+		else:
+			form = EventForm
 		if 'submitted' in request.GET:
 			submitted = True
 
@@ -119,16 +184,30 @@ def show_venue(request, venue_id):
 
 
 def list_venues(request):
-	venue_list = Venue.objects.all().order_by('?')
+	# venue_list = Venue.objects.all().order_by('?')
+
+	venue_list = Venue.objects.all()
+	# Set up Pagination
+	p = Paginator(Venue.objects.all(), 3)
+	page = request.GET.get('page')
+	venues = p.get_page(page)
+	nums = "a" * venues.paginator.num_pages
+
+
+
 	return render(request, 'events/venue.html',
-		{'venue_list': venue_list})	
+		{'venue_list': venue_list, 'venues': venues, 'nums': nums})	
 
 def add_venue(request):
 	submitted = False
 	if request.method == "POST":
 		form = VenueForm(request.POST)
 		if form.is_valid():
-			form.save()
+			venue = form.save(commit=False)
+			venue.owner = request.user.id # logged in user
+			venue.save()
+
+			# form.save()
 			return HttpResponseRedirect('/add_venue?submitted=True')
 	else:
 		form = VenueForm
