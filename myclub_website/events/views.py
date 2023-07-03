@@ -4,9 +4,11 @@ from calendar import HTMLCalendar
 from datetime import datetime
 from django.http import HttpResponseRedirect
 from .models import Event, Venue
+from django.contrib.auth.models import User
 from .forms import VenueForm, EventForm, EventFormAdmin
 from django.http import HttpResponse
 import csv
+from django.contrib import messages
 
 from django.http import FileResponse
 import io
@@ -17,6 +19,18 @@ from reportlab.lib.pagesizes import letter
 # Import Pagination Stuff
 from django.core.paginator import Paginator
 
+
+# Create My Events Page
+def my_events(request):
+	if request.user.is_authenticated:
+		me = request.user.id
+		events = Event.objects.filter(attendees=me)
+		return render(request, 'events/my_events.html',
+		{"events": events})
+
+	else:
+		messages.success(request, ("You aren't Authorized To View This Page!!"))
+		return redirect('home')
 
 # Generate a PDF File Venue List
 def venue_pdf(request):
@@ -110,8 +124,13 @@ def delete_venue(request, venue_id):
 # Delete an Event
 def delete_event(request, event_id):
 	event = Event.objects.get(pk=event_id)
-	event.delete()
-	return redirect('list-events')
+	if request.user == event.manager:
+		event.delete()
+		messages.success(request, ("Event Deleted!!"))
+		return redirect('list-events')
+	else:
+		messages.success(request, ("You aren't Authorized To Delete This Event!!"))
+		return redirect('list-events')
 
 def update_event(request, event_id):
 	event = Event.objects.get(pk=event_id)
@@ -175,12 +194,24 @@ def search_venues(request):
 			{'searched': searched, 'venues': venues})
 	else:
 		return render(request, 'events/search_venues.html',
-			{})			
+			{})
+
+def search_events(request):
+	if request.method == "POST":
+		searched = request.POST['searched']
+		events = Event.objects.filter(description__contains=searched)
+
+		return render(request, 'events/search_events.html',
+			{'searched': searched, 'events': events})
+	else:
+		return render(request, 'events/search_events.html',
+			{})							
 
 def show_venue(request, venue_id):
 	venue = Venue.objects.get(pk=venue_id)
+	venue_owner = User.objects.get(pk=venue.owner)
 	return render(request, 'events/show_venue.html',
-		{'venue': venue})	
+		{'venue': venue, 'venue_owner': venue_owner})	
 
 
 def list_venues(request):
@@ -238,6 +269,12 @@ def home(request, year=datetime.now().year, month=datetime.now().strftime('%B'))
 	now = datetime.now()
 	current_year = now.year
 
+	# Query the Events Model For Dates
+
+	event_list = Event.objects.filter(event_date__year = year,
+									  event_date__month = month_number)
+
+
 	# Get current time
 	time = now.strftime('%I:%M:%S %p')
 
@@ -250,4 +287,5 @@ def home(request, year=datetime.now().year, month=datetime.now().strftime('%B'))
 		'cal': cal,
 		'current_year': current_year,
 		'time': time,
+		'event_list': event_list,
 		})

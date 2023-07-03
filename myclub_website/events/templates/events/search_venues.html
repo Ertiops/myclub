@@ -2,13 +2,50 @@
 
 {% block content %}
 
-	<center>
+
 	{% if searched %}
 		<h1>You Searched For {{ searched }}</h1>
 		<br/>
+
+
 		{% for venue in venues %}
 
-			<a href="{% url 'show-venue' venue.id %}">{{ venue }}</a><br/>
+			<div class="card">
+			  <div class="card-header">
+			    Venue - test
+			  </div>
+			  <div class="card-body">
+			    <h5 class="card-title">{{ venue }}</h5>
+			    <p class="card-text">
+			      <ul>
+			      	{% if venue.address %}
+					<li>{{ venue.address }}</li>
+					{% endif %}
+
+					{% if venue.zip_code %}
+					<li>{{ venue.zip_code }}</li>
+					{% endif %}
+
+					{% if venue.phone %}
+					<li>{{ venue.phone }}</li>
+					{% endif %}
+
+					{% if venue.email_address %}
+					<li>{{ venue.email_address }}</li>
+					{% endif %}	
+
+					{% if venue.web %}
+					<li><a href="{{ venue.web }}">{{ venue.web }}</a></li>
+					{% endif %}
+
+					{% if venue.owner %}
+					<li>Owner ID: {{ venue.owner }} </li>
+					{% endif %}		
+				  </ul>	 	
+			    </p>
+			  </div>
+			</div>
+			<br/>			
 
 		{% endfor %}
 
@@ -18,6 +55,5 @@
 	
 
 
-	</center>
 
 {% endblock %}
