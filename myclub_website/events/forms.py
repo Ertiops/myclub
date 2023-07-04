@@ -67,14 +67,15 @@ class VenueForm(ModelForm):
 		model = Venue
 		fields = ('name', 'address', 
 				  'zip_code', 'phone', 
-				  'web', 'email_address')
+				  'web', 'email_address', 'venue_image')
 		labels = {
 			'name': '',
 			'address': '',
 			'zip_code': '',
 			'phone': '',
 			'web': '',
-			'email_address': ''	
+			'email_address': '', 
+			'venue_image': ''	
 		}
 		widgets = {
 			'name': forms.TextInput(attrs={'class': 'form-control',

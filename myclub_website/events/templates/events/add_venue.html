@@ -6,11 +6,11 @@
 
 	<center>		
 		<h1>Add Venue To Database</h1>
-		<br/><br/>{{ user.id }}
+		<br/><br/>
 		{% if submitted %}
 			Your Venue Was Submitted Successfully!!!
 		{% else %}		
-			<form action="" method=POST>
+			<form action="" method=POST enctype="multipart/form-data">
 				{% csrf_token %}
 				{{ form.as_p }}
 

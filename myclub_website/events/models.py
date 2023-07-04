@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import date
 
 
 class Venue(models.Model):
@@ -10,6 +11,7 @@ class Venue(models.Model):
 	web = models.URLField('Website Address', blank=True)
 	email_address = models.EmailField('Email Address', blank=True)
 	owner = models.IntegerField('Venue Owner', blank=False, default=1)
+	venue_image = models.ImageField(null=True, blank=True, upload_to="images/")
 
 	def __str__(self):
 		return self.name	
@@ -34,3 +36,22 @@ class Event(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	@property
+	def Days_till(self):
+		today = date.today()
+		days_till = self.event_date.date() - today
+		days_till_stripped = str(days_till).split(",", 1)[0]
+		return days_till_stripped
+
+	@property
+	def Is_Past(self):
+		today = date.today()
+		if self.event_date.date() < today:
+			thing = "Past"
+		else:
+			thing = "Future"
+
+		return thing
+	
+	

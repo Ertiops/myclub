@@ -177,7 +177,7 @@ def add_event(request):
 
 def update_venue(request, venue_id):
 	venue = Venue.objects.get(pk=venue_id)
-	form = VenueForm(request.POST or None, instance=venue)
+	form = VenueForm(request.POST or None, request.FILES or None, instance=venue)
 	if form.is_valid():
 		form.save()
 		return redirect('list-venues')
@@ -232,7 +232,7 @@ def list_venues(request):
 def add_venue(request):
 	submitted = False
 	if request.method == "POST":
-		form = VenueForm(request.POST)
+		form = VenueForm(request.POST, request.FILES)
 		if form.is_valid():
 			venue = form.save(commit=False)
 			venue.owner = request.user.id # logged in user
@@ -249,7 +249,7 @@ def add_venue(request):
 		{'form': form, 'submitted': submitted})	
 
 def all_events(request):
-	event_list = Event.objects.all().order_by('event_date')
+	event_list = Event.objects.all().order_by('-event_date')
 	return render(request, 'events/event_list.html',
 		{'event_list': event_list})
 
