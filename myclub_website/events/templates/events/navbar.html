@@ -21,6 +21,7 @@
             <li><a class="dropdown-item" href="{% url  'add-event' %}">Add Event</a></li>
             <li><a class="dropdown-item" href="{% url  'my_events' %}">My Events</a></li>
             {% endif %}
+
             <li><a class="dropdown-item" href="{% url  'search_events' %}">Search Events</a></li>
           </ul>
         </li>
@@ -49,6 +50,12 @@
         </li>
              
         {% if user.is_authenticated %}
+
+        {% if user.is_superuser %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url  'admin_approval' %}">Admin</a>
+        </li>
+        {% endif %}        
 
         <li class="nav-item">
           <a class="nav-link" href="{% url  'logout' %}">Logout</a>

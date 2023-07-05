@@ -19,6 +19,62 @@ from reportlab.lib.pagesizes import letter
 # Import Pagination Stuff
 from django.core.paginator import Paginator
 
+# Show Event
+def show_event(request, event_id):
+	event = Event.objects.get(pk=event_id)
+	return render(request, 'events/show_event.html', {'event': event})
+
+# Show Events In A Venue
+def venue_events(request, venue_id):
+	# Grab the Venue
+	venue = Venue.objects.get(id=venue_id)
+	# Grab the Events from that Venue
+	events = venue.event_set.all()
+	if events:
+		return render(request, 'events/venue_events.html', {'events': events})
+	else:
+		messages.success(request, ("That Venue Has No Events At This Time..."))
+		return redirect('admin_approval')		
+
+# Create Admin Event Approval Page
+def admin_approval(request):
+	# Get The Venues
+	venue_list = Venue.objects.all()
+
+	# Get Counts
+	event_count = Event.objects.all().count()
+	venue_count = Venue.objects.all().count()
+	user_count = User.objects.all().count()
+
+	event_list = Event.objects.all().order_by("-event_date")
+	if request.user.is_superuser:
+		if request.method == "POST":
+			id_list = request.POST.getlist('boxes')
+
+			# Uncheck all events
+			event_list.update(approved=False)
+
+			# Update the database
+			for x in id_list:
+				Event.objects.filter(pk=int(x)).update(approved=True)
+
+			messages.success(request, ("Event List Approval Has Been Updated"))
+			return redirect('list-events')
+
+		else:
+
+			return render(request, 'events/admin_approval.html', 
+				{'event_list': event_list,
+				 'event_count': event_count,
+				 'venue_count': venue_count,
+				 'user_count': user_count,
+				 'venue_list': venue_list})
+		
+	else:
+		messages.success(request, ("You aren't authorized to view this page"))
+		return redirect('home')
+
+	return render(request, 'events/admin_approval.html')
 
 # Create My Events Page
 def my_events(request):
@@ -210,8 +266,14 @@ def search_events(request):
 def show_venue(request, venue_id):
 	venue = Venue.objects.get(pk=venue_id)
 	venue_owner = User.objects.get(pk=venue.owner)
+
+	# Grab the Events from that Venue
+	events = venue.event_set.all()
+
 	return render(request, 'events/show_venue.html',
-		{'venue': venue, 'venue_owner': venue_owner})	
+		{'venue': venue, 
+		'venue_owner': venue_owner,
+		'events': events})	
 
 
 def list_venues(request):
